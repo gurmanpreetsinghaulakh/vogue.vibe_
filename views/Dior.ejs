@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Product Grid with Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f7f7f7;
+      }
+
+      h1 {
+          text-align: center;
+          font-size: 36px;
+          color: #333;
+          margin: 20px 0 40px;
+      }
+
+      .navbar-icons {
+          position: fixed;
+          top: 25px;
+          right: 50px;
+          display: flex;
+          align-items: center;
+          gap: 30px;
+          z-index: 1000;
+          background-color: #fff;
+          border-radius: 30px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          padding: 10px;
+      }
+
+      .navbar-icons .btn {
+          background: none;
+          border: none;
+          font-size: 24px;
+          color: #333;
+          padding: 0;
+          margin: 0;
+          transition: color 0.2s ease-in-out;
+      }
+
+      .navbar-icons .btn:hover {
+          color: #555;
+      }
+
+      .search-bar {
+          display: none;
+          position: fixed;
+          top: 60px;
+          right: 10px;
+          width: 250px;
+          padding: 10px;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+      }
+
+      .search-bar.open {
+          display: block;
+      }
+
+      .search-bar input {
+          width: 100%;
+          padding: 8px 12px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 16px;
+      }
+
+      .container {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 0;
+          padding: 0;
+          max-width: 100%;
+          margin: 0 auto;
+          border: 1px solid #ccc;
+      }
+
+      .card {
+          background-color: #fff;
+          border: 1px solid #ddd;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card img {
+          width: 100%;
+          height: 250px;
+          object-fit: contain;
+      }
+
+      .card h3 {
+          margin: 15px 0 5px;
+          font-size: 18px;
+          color: #555;
+      }
+
+      .card .price {
+          font-size: 16px;
+          color: #000;
+          margin: 5px 0 15px;
+      }
+
+      .card button {
+          background: none;
+          color: #333;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          font-size: 14px;
+          cursor: pointer;
+          text-decoration: underline;
+          transition: color 0.3s ease;
+      }
+
+      .card button:hover {
+          color: #555;
+      }
+
+      .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .card h3 a {
+          text-decoration: none;
+          color: #333;
+          transition: color 0.2s ease;
+      }
+
+      .card h3 a:hover {
+          color: #555;
+      }
+  </style>
+</head>
+<body>
+    <div class="navbar-icons">
+
+          <i class="fa-solid fa-user"></i>
+          <%= username %>
+
+        <button class="btn search-icon"><i class="fas fa-search"></i></button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <button class="btn cart-icon"><i class="fas fa-shopping-cart"></i></button>
+    </div>
+
+    <h1> ＣＨＲＩＳＴＩＡＮ ＤＩＯＲ</h1>
+    <div class="container">
+        <!-- Cards as provided -->
+        <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/E1520PTCRSD301_E01?$default_GHC$&crop=253,650,1495,872&bfc=on&qlt=85" alt="Diane">
+            <h3><a href="#">Petit CD Earrings</a></h3>
+            <div class="price">5500€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/R1009DVOCYD301_E03?$default_GHC$&crop=714,895,561,660&bfc=on&qlt=85" alt="Boulogne">
+            <h3><a href="#">Dio(r)evolution Ring</a></h3>
+            <div class="price">560€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/B1133PMTCYD301_E01?$default_GHC$&crop=435,325,1120,1191&bfc=on&qlt=85" alt="Product 3">
+            <h3>Petit CD Double Bracelet</h3>
+            <div class="price">1300€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/KCK250DJES62K_E03?$default_GHC$&crop=380,835,1240,743&bfc=on&qlt=8" alt="Product 4">
+            <h3>Walk'n'Dior Sneaker</h3>
+            <div class="price">450€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/S5573OWHPM51U_E01?$default_GHC$&crop=246,380,1500,1402&bfc=on&qlt=85" alt="Product 5">
+            <h3>Mini Dior Book Tote</h3>
+            <div class="price">260€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/224G02AM309X5855_E01?$default_GHC$&crop=445,150,1110,1259&bfc=on&qlt=85" alt="Product 6">
+            <h3>Dior Marinière Cardigan</h3>
+            <div class="price">1990€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/B0446UWGAM911_E01-1?$default_GHC$&crop=0,1089,1904,467&bfc=on&qlt=85" alt="Product 7">
+            <h3>30 Montaigne Reversible Belt</h3>
+            <div class="price">1300€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://assets.christiandior.com/is/image/diorprod/B0961ADRCOD22W_E01?$default_GHC$&crop=0,585,1880,906&bfc=on&qlt=85" alt="Product 8">
+            <h3>Christian Dior Bracelet Set</h3>
+            <div class="price">1330€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/KCQ209UELS62K_E06?$default_GHC$&crop=291,144,1313,1479&bfc=on&qlt=85" alt="Product 9">
+              <h3>Dway Slide</h3>
+              <div class="price">650€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/S2356UBPZM900_E01-2?$default_GHC$&crop=248,919,1372,900&bfc=on&qlt=85" alt="Product 10">
+              <h3>Miss Montaigne Mini Bag</h3>
+              <div class="price">820€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/224S09AM308X5800_E01?$default_GHC$&crop=365,148,1270,1355&bfc=on&qlt=85" alt="Product 11">
+              <h3>Christian Dior Short-Sleeved Sweater</h3>
+              <div class="price">1000€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/NSGTB1UXR10A0_E03?$default_GHC$&crop=69,809,1899,743&bfc=on&qlt=85" alt="Product 12">
+              <h3>DiorSignature B1U</h3>
+              <div class="price">1840€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/S5573CTQRM981_E01?$default_GHC$&crop=60,403,1669,1394&bfc=on&qlt=85" alt="Product 13">
+              <h3>Mini Dior Book Tote</h3>
+              <div class="price">290€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/KCK211OBES56B_E03-1?$default_GHC$&crop=384,813,1232,764&bfc=on&qlt=85" alt="Product 14">
+              <h3>Walk'n'Dior Sneaker</h3>
+              <div class="price">2310€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/N1155PMTCYD301_E01?$default_GHC$&crop=456,163,1088,1382&bfc=on&qlt=85" alt="Product 15">
+              <h3>Petit CD Double Necklace</h3>
+              <div class="price">1340€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/B0422UWFPM900_E01?$default_GHC$&crop=0,988,1910,641&bfc=on&qlt=85" alt="Product 16">
+              <h3>30 Montaigne Belt</h3>
+              <div class="price">3640€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/KDC200TFLS900_E03?$default_GHC$&crop=342,723,1315,790&bfc=on&qlt=85" alt="Product 17">
+              <h3>J'Adior Slingback Pump</h3>
+              <div class="price">1300€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/HYK02CWO0UC999_E01?$default_GHC$&crop=685,149,629,1580&bfc=on&qlt=85" alt="Product 18">
+              <h3>Whiskey Decanter</h3>
+              <div class="price">2200€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/DCANS1UXRD0L6_E03?$default_GHC$&crop=51,701,1900,861&bfc=on&qlt=85" alt="Product 19">
+              <h3>DiorCannage S1U</h3>
+              <div class="price">5200€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/S5907CNKOM928_E01?$default_GHC$&crop=201,697,1614,1099&bfc=on&qlt=85" alt="Product 20">
+              <h3>Medium Saddle Pouch with Chain</h3>
+              <div class="price">1980€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/3BO359ZDUH900_E03?$default_GHC$&crop=282,461,1434,1083&bfc=on&qlt=85" alt="Product 21">
+              <h3>Dior Embassy Chelsea Boot</h3>
+              <div class="price">970€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/1ESDU134YKYH03E_E01-2?$default_GHC$&crop=69,401,1847,1409&bfc=on&qlt=85" alt="Product 22">
+              <h3>Weekender 40</h3>
+              <div class="price">2180€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/CD08352X1343_E01?$default_GHC$&crop=402,307,1010,1384&bfc=on&qlt=85" alt="Product 23">
+              <h3>Chiffre Rouge</h3>
+              <div class="price">430€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/3DE305ZKCH969_E03?$default_GHC$&crop=336,843,1328,691&bfc=on&qlt=85" alt="Product 24">
+              <h3>Dior Timeless Derby Shoe</h3>
+              <div class="price">1200€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/1ESSH232YKYH27E_E01?$default_GHC$&crop=306,462,1291,1378&bfc=on&qlt=85" alt="Product 25">
+              <h3>East-West Tote Bag</h3>
+              <div class="price">540€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/2ESBC027CDIH00N_E01?$default_GHC$&crop=639,1178,728,625&bfc=on&qlt=85" alt="Product 26">
+              <h3>CD Icon Bifold Wallet</h3>
+              <div class="price">580€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/2ADCA435YKSH53E_E01?$default_GHC$&crop=311,977,1355,831&bfc=on&qlt=85" alt="Product 27">
+              <h3>Mini Saddle Messenger Bag with Flap</h3>
+              <div class="price">3210€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/413C914C6472C989_E03?$default_GHC$&crop=199,677,1366,753&bfc=on&qlt=85" alt="Product 28">
+              <h3>CD Icon Cap</h3>
+              <div class="price">1290€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/44E0001A1018C180_E01?$default_GHC$&crop=692,150,616,1727&bfc=on&qlt=85" alt="Product 29">
+              <h3>Striped Cannage Scarf</h3>
+              <div class="price">5500€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/JMYD95033_SBG_E01-1?$no_transfo_lookshot_default_GHC$&bfc=on&qlt=85" alt="Product 30">
+              <h3>My Dior Bracelet</h3>
+              <div class="price">510€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://assets.christiandior.com/is/image/diorprod/S2381UTZQM928_E01?$default_GHC$&crop=304,156,1394,1692&bfc=on&qlt=85" alt="Product 31">
+              <h3>30 Montaigne Cigale Mini Bag</h3>
+              <div class="price">1200€</div>
+            <button>Add to Cart</button>
+              </div>
+              <div class="card">
+                  <img src="https://assets.christiandior.com/is/image/diorprod/S5169UBXPM01E_E01?$default_GHC$&crop=321,866,1359,925&bfc=on&qlt=85" alt="Product 32">
+                  <h3>Miss Caro Mini Bag</h3>
+                  <div class="price">5430€</div>
+            <button>Add to Cart</button>
+              </div>
+        <!-- Add more cards as needed -->
+    </div>
+
+    <script>
+      // GSAP Enhanced Entrance Animation
+      gsap.fromTo(
+          ".card",
+          { opacity: 0, y: 50 },
+          {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.2,
+              ease: "power3.out"
+          }
+      );
+  
+      // GSAP Hover Animation
+      document.querySelectorAll('.card').forEach(card => {
+          card.addEventListener('mouseenter', () => {
+              gsap.to(card, { scale: 1.05, duration: 0.3 });
+          });
+          card.addEventListener('mouseleave', () => {
+              gsap.to(card, { scale: 1, duration: 0.3 });
+          });
+      });
+  
+      // Smooth Transition for Search Bar
+      const searchIcon = document.querySelector(".search-icon");
+      const searchBar = document.querySelector(".search-bar");
+  
+      searchIcon.addEventListener("click", () => {
+          searchBar.classList.toggle("open");
+          if (searchBar.classList.contains("open")) {
+              searchBar.querySelector("input").focus();
+              gsap.fromTo(searchBar, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+          }
+      });
+  
+      // Add to Cart functionality with opening animation
+      const cartIcon = document.querySelector('.cart-icon');
+const cart = document.createElement('div');
+cart.style.position = 'fixed';
+cart.style.top = '60px';
+cart.style.right = '-350px';
+cart.style.width = '300px';
+cart.style.background = '#fff';
+cart.style.padding = '15px';
+cart.style.borderRadius = '10px';
+cart.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+cart.style.display = 'block';
+cart.style.zIndex = '1000';
+cart.style.transition = 'right 0.5s ease';
+cart.innerHTML = `
+  <h4>Cart</h4>
+  <ul class="cart-list" style="list-style: none; padding: 0;"></ul>
+  <button class="close-cart" style="margin-top: 10px; background: #f00; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Close</button>
+`;
+document.body.appendChild(cart);
+
+// Open cart when cart icon is clicked
+cartIcon.addEventListener('click', () => {
+  gsap.to(cart, { right: '50px', duration: 0.5 });
+});
+
+// Close cart button functionality
+cart.querySelector('.close-cart').addEventListener('click', () => {
+  gsap.to(cart, { right: '-350px', duration: 0.5 });
+});
+
+// Add items to cart when a product button is clicked
+document.querySelectorAll('.card button').forEach(button => {
+  button.addEventListener('click', () => {
+      const card = button.closest('.card');
+      const productName = card.querySelector('h3').textContent;
+      const productPrice = card.querySelector('.price').textContent;
+      const productImage = card.querySelector('img').src;
+
+      // Open cart if it's not already open
+      gsap.to(cart, { right: '50px', duration: 0.5 });
+
+      // Add item to the cart list
+      const cartList = cart.querySelector('.cart-list');
+      const cartItem = document.createElement('li');
+      cartItem.style.display = 'flex';
+      cartItem.style.alignItems = 'center';
+      cartItem.style.marginBottom = '10px';
+
+      cartItem.innerHTML = `
+                  <img src="${productImage}" alt="Product" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                  <div>
+                      <p style="margin: 0; font-size: 14px;">${productName}</p>
+                      <p style="margin: 0; font-size: 12px; color: #555;">${productPrice}</p>
+                  </div>
+                  <button class="remove-btn" style="margin-left: auto; color: red; background: none; border: none; cursor: pointer;">Remove</button>
+              `;
+      cartList.appendChild(cartItem);
+  
+              // Animation for the new item added to cart
+              gsap.fromTo(cartItem, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+  
+              // Remove item functionality
+              cartItem.querySelector('.remove-btn').addEventListener('click', () => {
+                  gsap.to(cartItem, {
+                      opacity: 0,
+                      y: -10,
+                      duration: 0.3,
+                      onComplete: () => cartItem.remove(),
+                  });
+              });
+          });
+      });
+  </script>
+</body>
+</html>

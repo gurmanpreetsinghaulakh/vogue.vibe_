@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Product Grid with Prices</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+            margin: 20px 0 40px;
+        }
+
+        .navbar-icons {
+            position: fixed;
+            top: 25px;
+            right: 50px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            z-index: 1000;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .navbar-icons .btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .navbar-icons .btn:hover {
+            color: #555;
+        }
+
+        .search-bar {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 10px;
+            width: 250px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .search-bar.open {
+            display: block;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            padding: 0;
+            max-width: 100%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+        }
+
+        .card h3 {
+            margin: 15px 0 5px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .card .price {
+            font-size: 16px;
+            color: #000;
+            margin: 5px 0 15px;
+        }
+
+        .card button {
+            background: none;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .card button:hover {
+            color: #555;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+
+        .card h3 a:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-icons">
+
+          <i class="fa-solid fa-user"></i>
+          <%= username %>
+
+        <button class="btn search-icon"><i class="fas fa-search"></i></button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <button class="btn cart-icon"><i class="fas fa-shopping-cart"></i></button>
+    </div>
+
+    <h1>ＹＶＥＳ ＳＡＩＮＴ ＬＡＵＲＥＮＴ</h1>
+    <div class="container">
+        <!-- Product Cards -->
+        <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/323dcb5fd1c1eac8/Medium-815251Y5OA22576_A.jpg?v=2" alt="Diane">
+            <h3><a href="#">SAHARIENNE short jacket in lambskin</a></h3>
+            <div class="price">5500€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/58be6fb99ca8ab85/Large-822437DWE006036_A.jpg?v=2" alt="Boulogne">
+            <h3><a href="#">SUSAN sandals in smooth leather</a></h3>
+            <div class="price">950€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/79460134d5fea500/Medium-8189319QAB11000_A.jpg?v=2" alt="Product 3">
+            <h3>OPYUM mules in satin crepe</h3>
+            <div class="price">1100€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/66964d25af6e1a0f/Medium-7139381U80W2102_A.jpg?v=3" alt="Product 4">
+            <h3>LE 5 À 7 supple small in suede</h3>
+            <div class="price">2200€</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/6d7ad64bb31f7bc7/Medium-820145Y15008060_A.jpg?v=2" alt="Product 5">
+            <h3>YVES SAINT LAURENT charm earrings in metal</h3>
+            <div class="price">790€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/58071e4b6ef5ea3f/Medium-690920Y99562300_A.jpg?v=3" alt="Product 6">
+            <h3>SL M103</h3>
+            <div class="price">345€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/4a1ef1f6e17bbe52/Medium-818380YZ9AN2560_A.jpg?v=1" alt="Product 7">
+            <h3>ruffled dress in cotton serge</h3>
+            <div class="price">3000€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://saint-laurent.dam.kering.com/m/4126c677a7b2d369/Large-820001AADBP2447_A.jpg?v=2" alt="Product 8">
+            <h3>oval buckle belt in leather</h3>
+            <div class="price">480€</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/1085fe3dadda38b6/Large-823416AACSQ6120_A.jpg?v=1" alt="Product 9">
+              <h3>VIVIAN boots in smooth leather</h3>
+              <div class="price">1600€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/1b6fa1d15c10c751/Medium-815645YCRO21000_A.jpg?v=1" alt="Product 10">
+              <h3>cropped jacket in lambskin</h3>
+              <div class="price">4200€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/3593287bc67df938/Medium-816394Y2J021000_A.jpg?v=2" alt="Product 11">
+              <h3>jacket in wool chiné</h3>
+              <div class="price">2700€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/5aec64fcb130522c/Large-818291Y2J011095_A.jpg?v=2" alt="Product 12">
+              <h3>baggy pants in striped canvas</h3>
+              <div class="price">1500€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/29e08578f17462f5/Large-818084AACWZ1000_A.jpg?v=2" alt="Product 13">
+              <h3>VADIM derbies in glazed leather</h3>
+              <div class="price">950€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/3e18df52a9d66c47/Medium-817251Y76XM1000_A.jpg?v=2" alt="Product 14">
+              <h3>polo in wool</h3>
+              <div class="price">1190€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/52ea76edd0d5fadd/Medium-819717AAES61000_A.jpg?v=2" alt="Product 15">
+              <h3>ANTOINE derbies in glazed leather</h3>
+              <div class="price">970€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/4b36e110d6946cff/Medium-8212652R20W1000_A.jpg?v=2" alt="Product 16">
+              <h3>SAINT LAURENT small case in smooth leather</h3>
+              <div class="price">1800€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/682f66ccb631c6ae/eCom-822252Y99672338_A.jpg?v=2" alt="Product 17">
+              <h3>SL 790</h3>
+              <div class="price">395€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/3fd3831996bc478e/Medium-8168713YR571078_A.jpg?v=2" alt="Product 18">
+              <h3>Y varsity cap in gabardine</h3>
+              <div class="price">430€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/5e24e902fdd7d9ad/Medium-8169303YR391300_A.jpg?v=2" alt="Product 19">
+              <h3>SAINT LAURENT knit baseball cap</h3>
+              <div class="price">550€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/6df5de42eae7bda8/Medium-80201300NAX9071_A.jpg?v=1" alt="Product 20">
+              <h3>BUMP sneakers in smooth leather</h3>
+              <div class="price">800€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/22872eb9858d1013/Medium-770495Y15268066_A.jpg?v=1" alt="Product 21">
+              <h3>CASSANDRE multi-chain bracelet in metal and crystal</h3>
+              <div class="price">500€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/635349383907ffe6/Medium-799607AAAOZ1000_A.jpg?v=1" alt="Product 22">
+              <h3>CASSANDRE belt bracelet in leather</h3>
+              <div class="price">300€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/615c378fa91c28d9/Medium-748486Y15008007_A.jpg?v=1" alt="Product 23">
+              <h3>CASSANDRE brooch in metal</h3>
+              <div class="price">350€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/461c8128381d15b4/Medium-691563Y15269018_A.jpg?v=2" alt="Product 24">
+              <h3>CASSANDRE pearl earrings in metal</h3>
+              <div class="price">395€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/4b8bc1d9e889b46f/Medium-534395BOW0J1000_A.jpg?v=2" alt="Product 25">
+              <h3>KATE Belt bag in grain de poudre-embossed leather</h3>
+              <div class="price">950€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/33f64118b6417bf5/Medium-7194283Y2101000_A.jpg?v=2" alt="Product 26">
+              <h3>CASSANDRE scarf in wool jacquard</h3>
+              <div class="price">700€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/50341641e3c1303f/Medium-736461Y99561000_A.jpg?v=1" alt="Product 27">
+              <h3>SL M119 BLAZE</h3>
+              <div class="price">695€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/2a172e470dd9895e/Medium-800014Y115W1000_A.jpg?v=1" alt="Product 28">
+              <h3>halter dress in silk crepe muslin</h3>
+              <div class="price">3400€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/7c571f3b978a6742/Medium-798780YCNF22509_A.jpg?v=1" alt="Product 29">
+              <h3>Bomber Jacket in Lambskin</h3>
+              <div class="price">5500€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/69a0fd1c486497ee/Medium-782496Y5I744360_A.jpg?v=3" alt="Product 30">
+              <h3>Winchester Boyfriend Shirt in Cotton</h3>
+              <div class="price">1190€</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://saint-laurent.dam.kering.com/m/6ee4f5c5729f8913/Medium-657228B870W6413_A.jpg?v=1" alt="Product 31">
+              <h3>le 5 à 7 in patent leather</h3>
+              <div class="price">2000€</div>
+            <button>Add to Cart</button>
+              </div>
+              <div class="card">
+                  <img src="https://saint-laurent.dam.kering.com/m/289241a260c226a/Medium-8036469QNAG1000_A.jpg?v=2" alt="Product 32">
+                  <h3>BABYLONE slingback flats in satin crepe</h3>
+                  <div class="price">800€</div>
+                  <button>Add to Cart</button>
+              </div>
+        <!-- Add more cards as required -->
+    </div>
+
+    <script>
+        // GSAP Enhanced Entrance Animation
+        gsap.fromTo(
+            ".card",
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out"
+            }
+        );
+    
+        // GSAP Hover Animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { scale: 1.05, duration: 0.3 });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { scale: 1, duration: 0.3 });
+            });
+        });
+    
+        // Smooth Transition for Search Bar
+        const searchIcon = document.querySelector(".search-icon");
+        const searchBar = document.querySelector(".search-bar");
+    
+        searchIcon.addEventListener("click", () => {
+            searchBar.classList.toggle("open");
+            if (searchBar.classList.contains("open")) {
+                searchBar.querySelector("input").focus();
+                gsap.fromTo(searchBar, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+            }
+        });
+    
+        // Add to Cart functionality with opening animation
+        const cartIcon = document.querySelector('.cart-icon');
+const cart = document.createElement('div');
+cart.style.position = 'fixed';
+cart.style.top = '60px';
+cart.style.right = '-350px';
+cart.style.width = '300px';
+cart.style.background = '#fff';
+cart.style.padding = '15px';
+cart.style.borderRadius = '10px';
+cart.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+cart.style.display = 'block';
+cart.style.zIndex = '1000';
+cart.style.transition = 'right 0.5s ease';
+cart.innerHTML = `
+    <h4>Cart</h4>
+    <ul class="cart-list" style="list-style: none; padding: 0;"></ul>
+    <button class="close-cart" style="margin-top: 10px; background: #f00; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Close</button>
+`;
+document.body.appendChild(cart);
+
+// Open cart when cart icon is clicked
+cartIcon.addEventListener('click', () => {
+    gsap.to(cart, { right: '50px', duration: 0.5 });
+});
+
+// Close cart button functionality
+cart.querySelector('.close-cart').addEventListener('click', () => {
+    gsap.to(cart, { right: '-350px', duration: 0.5 });
+});
+
+// Add items to cart when a product button is clicked
+document.querySelectorAll('.card button').forEach(button => {
+    button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const productName = card.querySelector('h3').textContent;
+        const productPrice = card.querySelector('.price').textContent;
+        const productImage = card.querySelector('img').src;
+
+        // Open cart if it's not already open
+        gsap.to(cart, { right: '50px', duration: 0.5 });
+
+        // Add item to the cart list
+        const cartList = cart.querySelector('.cart-list');
+        const cartItem = document.createElement('li');
+        cartItem.style.display = 'flex';
+        cartItem.style.alignItems = 'center';
+        cartItem.style.marginBottom = '10px';
+
+        cartItem.innerHTML = `
+                    <img src="${productImage}" alt="Product" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <div>
+                        <p style="margin: 0; font-size: 14px;">${productName}</p>
+                        <p style="margin: 0; font-size: 12px; color: #555;">${productPrice}</p>
+                    </div>
+                    <button class="remove-btn" style="margin-left: auto; color: red; background: none; border: none; cursor: pointer;">Remove</button>
+                `;
+        cartList.appendChild(cartItem);
+    
+                // Animation for the new item added to cart
+                gsap.fromTo(cartItem, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+    
+                // Remove item functionality
+                cartItem.querySelector('.remove-btn').addEventListener('click', () => {
+                    gsap.to(cartItem, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.3,
+                        onComplete: () => cartItem.remove(),
+                    });
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

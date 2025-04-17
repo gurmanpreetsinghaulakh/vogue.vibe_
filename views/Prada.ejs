@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Product Grid with Prices</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+            margin: 20px 0 40px;
+        }
+
+        .navbar-icons {
+            position: fixed;
+            top: 25px;
+            right: 50px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            z-index: 1000;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .navbar-icons .btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .navbar-icons .btn:hover {
+            color: #555;
+        }
+
+        .search-bar {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 10px;
+            width: 250px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .search-bar.open {
+            display: block;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            padding: 0;
+            max-width: 100%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+        }
+
+        .card h3 {
+            margin: 15px 0 5px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .card .price {
+            font-size: 16px;
+            color: #000;
+            margin: 5px 0 15px;
+        }
+
+        .card button {
+            background: none;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .card button:hover {
+            color: #555;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+
+        .card h3 a:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-icons">
+
+          <i class="fa-solid fa-user"></i>
+          <%= username %>
+
+        <button class="btn search-icon"><i class="fas fa-search"></i></button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <button class="btn cart-icon"><i class="fas fa-shopping-cart"></i></button>
+    </div>
+
+    <h1>ＰＲＡＤＡ</h1>
+    <div class="container">
+        <!-- Product Cards -->
+        <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BA/1BA906/2AO6F0E06/1BA906_2AO6_F0E06_V_EVM_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Diane">
+            <h3><a href="#"></a>Prada Galleria patent Saffiano mini-bag</h3>
+            <div class="price">$790</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/2/291/291805/1XJXF0002/291805_1XJX_F0002_S_222_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Boulogne">
+            <h3><a href="#"></a>Convertible cropped velvet down jacket</h3>
+            <div class="price">$7800</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/1IF/1IF154/068F0002/1IF154_068_F0002_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 3">
+            <h3>Velvet hair clip</h3>
+            <div class="price">$4500</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BC/1BC515/2AWLF0T7O/1BC515_2AWL_F0T7O_V_OOO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 4">
+            <h3>Prada Re-Edition Satin mini-bag with crystals</h3>
+            <div class="price">$7100</div>
+            <button>Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/134/134716/16V5F0009/134716_16V5_F0009_S_OOO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 5">
+            <h3>Cotton crew-neck sweatshirt</h3>
+            <div class="price">$2200</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/S/SPR/SPRB06/E16KFE08Z/SPRB06_E16K_FE08Z_C_053_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 6">
+            <h3>Prada Symbole sunglasses</h3>
+            <div class="price">$920</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/1FS/1FS055/2COOF0ORZ/1FS055_2COO_F0ORZ_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 7">
+            <h3>Double cashmere scarf</h3>
+            <div class="price">$1100</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/1/1IO/1IO146/2C41F0056/1IO146_2C41_F0056_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 8">
+            <h3>Metal earrings</h3>
+            <div class="price">$490</div>
+            <button>Add to Cart</button>
+          </div>
+          <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1IC/1IC149/2C41F0056/1IC149_2C41_F0056_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 9">
+              <h3>Metal necklace</h3>
+              <div class="price">$1300</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1A2/1A2751/2IAGFBU10/1A2751_2IAG_FBU10_P_OOO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 10">
+              <h3>Prada Optimizing Care lip balm</h3>
+              <div class="price">$500</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1A1/1A1351/2HDZF0Z99/1A1351_2HDZ_F0Z99_P_ML090_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 11">
+              <h3>Paradoxe EDP</h3>
+              <div class="price">$990</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1T8/1T817N/069F0002/1T817N_069_F0002_F_035_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 12">
+              <h3>Patent leather ankle boots</h3>
+              <div class="price">$1400</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/2/2EB/2EB200/055F0192/2EB200_055_F0192_F_X001_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 13">
+              <h3>Brushed leather lace-up shoes</h3>
+              <div class="price">$1640</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/2/2A1/2A1155/2HC5F0Z99/2A1155_2HC5_F0Z99_P_ML100_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 14">
+              <h3>Luna Rossa Black EDP</h3>
+              <div class="price">$1770</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1I8/1I838N/069F0E06/1I838N_069_F0E06_F_085_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 15">
+              <h3>Patent leather slingback pumps</h3>
+              <div class="price">$1200</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/2/2DB/2DB222/055F0D27/2DB222_055_F0D27_F_X000_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 16">
+              <h3>Brushed leather loafers</h3>
+              <div class="price">$5500</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1A7/1A7061/2IACF0Z99/1A7061_2IAC_F0Z99_P_ML125_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 17">
+              <h3>Prada Augmented Skin - The Cleanser</h3>
+              <div class="price">$660</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/2/2VH/2VH184/2BBEF0002/2VH184_2BBE_F0002_V_OOO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2400.2400.jpg" alt="Product 18">
+              <h3>Leather shoulder bag</h3>
+              <div class="price">$3100</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1A5/1A5001/2IAVFBDW1/1A5001_2IAV_FBDW1_P_ML030_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 19">
+              <h3>Prada Reveal Skin optimizing foundation</h3>
+              <div class="price">$1750</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/P/P24/P24G1V/1YMWF0F24/P24G1V_1YMW_F0F24_S_232_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 20">
+              <h3>Cashmere and wool Prada logo crew-neck sweater</h3>
+              <div class="price">$2100</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1HP/1HP605/2EC9F03W3/1HP605_2EC9_F03W3_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 21">
+              <h3>Shearling earmuffs</h3>
+              <div class="price">$1000</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradanux_products/1/1NI/1NI545/R067F0076/1NI545_R067_F0076_SLF.png/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 22">
+              <h3>Re-Nylon mini bag</h3>
+              <div class="price">$4100</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1HC/1HC137/2DMIF0632/1HC137_2DMI_F0632_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 23">
+              <h3>Re-Nylon bucket hat</h3>
+              <div class="price">$5100</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1NS/1NS175/R067F0002/1NS175_R067_F0002_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 24">
+              <h3>Re-Nylon pouch</h3>
+              <div class="price">$2100</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1HC/1HC336/068F0002/1HC336_068_F0002_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 25">
+              <h3>Velvet baseball cap</h3>
+              <div class="price">$920</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/S/SPR/SPR14Y/E1ABFE30L/SPR14Y_E1AB_FE30L_C_053_SLR.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 26">
+              <h3>Sunglasses with triangle logo</h3>
+              <div class="price">$1900</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1CC/1CC621/2AO6F0002/1CC621_2AO6_F0002_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 27">
+              <h3>Patent leather belt</h3>
+              <div class="price">$990</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1IA/1IA045/2C41F0056/1IA045_2C41_F0056_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 28">
+              <h3>Metal ring</h3>
+              <div class="price">$1570</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1TT/1TT205/2DMKF0632/1TT205_2DMK_F0632_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 29">
+              <h3>Mini Icon Re-Nylon bag charm</h3>
+              <div class="price">$420</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1CM/1CM263/8NQF0ORP/1CM263_8NQ_F0ORP_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 30">
+              <h3>Leather belt</h3>
+              <div class="price">$2300</div>
+            <button>Add to Cart</button>
+            </div>
+            <div class="card">
+              <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BC/1BC204/2C7BF0151/1BC204_2C7B_F0151_V_QOM_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 31">
+              <h3>Prada Re-Edition printed leather mini-bag</h3>
+              <div class="price">$1740</div>
+            <button>Add to Cart</button>
+              </div>
+              <div class="card">
+                  <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BG/1BG542/2C4SF0324/1BG542_2C4S_F0324_V_OVO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg" alt="Product 32">
+                  <h3>Mini suede shopping bag</h3>
+                  <div class="price">$1800</div>
+                  <button>Add to Cart</button>
+              </div>
+    </div>
+
+    <script>
+        // GSAP Enhanced Entrance Animation
+        gsap.fromTo(
+            ".card",
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out"
+            }
+        );
+    
+        // GSAP Hover Animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { scale: 1.05, duration: 0.3 });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { scale: 1, duration: 0.3 });
+            });
+        });
+    
+        // Smooth Transition for Search Bar
+        const searchIcon = document.querySelector(".search-icon");
+        const searchBar = document.querySelector(".search-bar");
+    
+        searchIcon.addEventListener("click", () => {
+            searchBar.classList.toggle("open");
+            if (searchBar.classList.contains("open")) {
+                searchBar.querySelector("input").focus();
+                gsap.fromTo(searchBar, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+            }
+        });
+    
+        // Add to Cart functionality with opening animation
+        const cartIcon = document.querySelector('.cart-icon');
+const cart = document.createElement('div');
+cart.style.position = 'fixed';
+cart.style.top = '60px';
+cart.style.right = '-350px';
+cart.style.width = '300px';
+cart.style.background = '#fff';
+cart.style.padding = '15px';
+cart.style.borderRadius = '10px';
+cart.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+cart.style.display = 'block';
+cart.style.zIndex = '1000';
+cart.style.transition = 'right 0.5s ease';
+cart.innerHTML = `
+    <h4>Cart</h4>
+    <ul class="cart-list" style="list-style: none; padding: 0;"></ul>
+    <button class="close-cart" style="margin-top: 10px; background: #f00; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Close</button>
+`;
+document.body.appendChild(cart);
+
+// Open cart when cart icon is clicked
+cartIcon.addEventListener('click', () => {
+    gsap.to(cart, { right: '50px', duration: 0.5 });
+});
+
+// Close cart button functionality
+cart.querySelector('.close-cart').addEventListener('click', () => {
+    gsap.to(cart, { right: '-350px', duration: 0.5 });
+});
+
+// Add items to cart when a product button is clicked
+document.querySelectorAll('.card button').forEach(button => {
+    button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const productName = card.querySelector('h3').textContent;
+        const productPrice = card.querySelector('.price').textContent;
+        const productImage = card.querySelector('img').src;
+
+        // Open cart if it's not already open
+        gsap.to(cart, { right: '50px', duration: 0.5 });
+
+        // Add item to the cart list
+        const cartList = cart.querySelector('.cart-list');
+        const cartItem = document.createElement('li');
+        cartItem.style.display = 'flex';
+        cartItem.style.alignItems = 'center';
+        cartItem.style.marginBottom = '10px';
+
+        cartItem.innerHTML = `
+                    <img src="${productImage}" alt="Product" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <div>
+                        <p style="margin: 0; font-size: 14px;">${productName}</p>
+                        <p style="margin: 0; font-size: 12px; color: #555;">${productPrice}</p>
+                    </div>
+                    <button class="remove-btn" style="margin-left: auto; color: red; background: none; border: none; cursor: pointer;">Remove</button>
+                `;
+        cartList.appendChild(cartItem);
+    
+                // Animation for the new item added to cart
+                gsap.fromTo(cartItem, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+    
+                // Remove item functionality
+                cartItem.querySelector('.remove-btn').addEventListener('click', () => {
+                    gsap.to(cartItem, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.3,
+                        onComplete: () => cartItem.remove(),
+                    });
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
