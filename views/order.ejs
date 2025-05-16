@@ -1,230 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Gallery</title>
-  <!-- External Libraries -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxury Brand Gallery</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Luxury brand collection: Louis Vuitton, Gucci, Dior, Chanel, Prada and more.">
+  <meta name="theme-color" content="#0b0b0b">
+
+  <!-- Fonts + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
-    
+    :root {
+      --accent: #d4af37;
+      --dark-bg: #0b0b0b;
+      --light-text: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
-      scroll-behavior: smooth;
+      cursor: none;
+    }
+    /* Page Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: #0b0b0b;
+      color: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      letter-spacing: 8px;
+      z-index: 9999;
     }
 
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 2.5rem;
-      color: #333;
-      opacity: 0;
-      transform: translateY(-50px);
+    /* Animated Cursor */
+    .cursor {
+      width: 20px; height: 20px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: background 0.2s ease, transform 0.2s ease;
     }
 
-    /* Navbar icons  */
+    /* Navbar Badge */
     .navbar-icons {
       position: fixed;
-      top: 30px;
-      right: 50px;
+      top: 20px;
+      right: 25px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      background-color: #fff;
-      border-radius: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 10px;
-    }
-    .navbar-icons .btn {
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: #333;
-      padding: 0;
-      margin: 0;
-      transition: color 0.2s ease-in-out;
-    }    
-
-
-    /* Product Gallery Styles */
-    .product-gallery {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* Ensures 4 boxes in a row */
-      gap: 0; /* No gap between boxes */
-      margin: 40px auto;
-      width: 100%; /* Full-width gallery */
-      border: 2px solid #ddd; /* Border around the gallery */
-      padding: 0; /* No padding inside the gallery */
+      background: #151515;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 18px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 999;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
     }
 
-    /* Box Style */
-    .product-box {
+    /* Hero Section */
+    .hero-section {
+      background: url('/Slide_Vietti.jpg') center center / cover no-repeat fixed;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      background-color: #fff;
-      padding: 10px;
-      border: 1px solid #ddd; /* Border between boxes */
       position: relative;
-      height: 350px; /* Fixed height for all boxes */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
+    }
+    .hero-section::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: -1;
+    }
+    .hero-section h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      color: var(--accent);
+      letter-spacing: 6px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      font-weight: 700;
     }
 
-    /* Product Image Style */
-    .product-box img {
-      width: 100%; /* Make image width fill the box */
-      height: 250px; /* Set a fixed height for images */
-      object-fit: contain;
-      transition: transform 0.3s ease;
-      display: block;
-    }
+      /* Brand Gallery */
+  .brand-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 50px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-    /* Product Name Style */
-    .product-box h3 {
-      font-size: 1.2rem; /* Adjusted font size */
-      margin: 10px 0 0;
-      color: #333;
-      transition: color 0.3s ease;
-    }
+.product-box {
+  width: 300px;
+  height: 300px;
+  background: #d4af37;
+  border-radius: 20px;
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.6), 
+    inset 0 1px 3px rgba(255,255,255,0.1),
+    inset 0 -1px 3px rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  overflow: hidden;
+  margin: 0 auto;
+  cursor: pointer;
+  border: none;
+}
 
-    /* Hover Effects */
-    .product-box:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+.product-box img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+  transition: transform 0.4s ease;
+}
 
-    .product-box:hover img {
-      transform: scale(1.1);
-    }
+.product-box:hover {
+  transform: scale(1.05);
+  /* border: 2px solid var(--accent); */
+  box-shadow: 
+    0 0 25px var(--accent),
+    0 12px 28px rgba(0,0,0,0.8);
+}
 
-    .product-box:hover h3 {
-      color: #007bff;
-    }
+.product-box:hover img {
+  transform: scale(1.1);
+}
 
-    /* Footer Style */
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      background-color: #333;
-      color: #fff;
-      opacity: 0;
-      transform: translateY(50px);
-    }
-</style>
+@media screen and (max-width: 768px) {
+  .brand-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 30px 10px;
+  }
 
+  .product-box {
+    width: 220px;
+    height: 220px;
+  }
+
+  .product-box img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+}
+
+
+  /* Footer */
+  footer {
+    background-color: #111;
+    color: #aaa;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 0.85rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+  }
+
+  /* Scroll To Top */
+  .scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    background-color: var(--accent);
+    color: var(--dark-bg);
+    padding: 12px 14px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: none;
+    z-index: 999;
+    transition: background-color 0.3s ease;
+  }
+
+  .scroll-top:hover {
+    background-color: #e6c65d;
+    box-shadow: 0 0 15px var(--accent);
+  }
+
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .navbar-icons {
+      top: 15px;
+      right: 15px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+    .hero-section h1 {
+      font-size: 2.2rem;
+      letter-spacing: 5px;
+    }
+    .brand-gallery {
+      gap: 25px;
+      padding: 30px 15px;
+    }
+    .product-box {
+      width: 180px;
+      height: 180px;
+    }
+  }
   </style>
 </head>
+
 <body>
-  <!-- Main Heading -->
-  <h1>ＢＲＡＮＤ ＧＡＬＬＥＲＹ</h1>
-  <div class="navbar-icons">
+<!-- Page Loader -->
+<div id="loader">LOADING...</div>
 
-    <i class="fa-solid fa-user"></i>
-    <%= username %>
+<!-- Animated Cursor -->
+<div class="cursor"></div>
 
+<!-- Navbar User -->
+<div class="navbar-icons">
+  <i class="fa-solid fa-user"></i>
+  <span><%= username %></span>
 </div>
 
-
-  <!-- Product Gallery -->
-  <div class="product-gallery">
-    <!-- Product Boxes -->
-    <button class="product-box" onclick="location.href='/loui'">
-      <img src="/lv.jpg" alt="Louis Vuitton">
-      <!-- <h3>Louis Vuitton</h3> -->
-    </button>
-    <button class="product-box" onclick="location.href='/gucci'">
-      <img src="/gg.jpg" alt="Gucci">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/Dior'">
-      <img src="/Dior.jpg" alt="Dior">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/Chanel'">
-      <img src="/ch.jpg" alt="Chanel">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/Ysl'">
-      <img src="/ysl.jpg" alt="Rolex">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/armani'">
-      <img src="/ax.jpg" alt="Armani Exchange">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/Burburry'">
-      <img src="/bb.jpg" alt="Burberry">
-      <h3></h3>
-    </button>
-    <button class="product-box" onclick="location.href='/Prada'">
-      <img src="/pr.jpg" alt="Prada">
-      <h3></h3>
-    </button>
+<!-- Hero -->
+<header class="hero-section">
+  <h1>BRAND GALLERY</h1>
+</header>
+<!-- Brand Gallery -->
+<section class="brand-gallery">
+  <div class="product-box" onclick="location.href='/loui'" tabindex="0">
+    <img src="/lv.png" alt="Louis Vuitton">
   </div>
+  <div class="product-box" onclick="location.href='/gucci'" tabindex="0">
+    <img src="/gg.png" alt="Gucci">
+  </div>
+  <div class="product-box" onclick="location.href='/Dior'" tabindex="0">
+    <img src="/dior.png" alt="Dior">
+  </div>
+  <div class="product-box" onclick="location.href='/Chanel'" tabindex="0">
+    <img src="/ch.png" alt="Chanel">
+  </div>
+  <div class="product-box" onclick="location.href='/Ysl'" tabindex="0">
+    <img src="/ysl.png" alt="Yves Saint Laurent">
+  </div>
+  <div class="product-box" onclick="location.href='/armani'" tabindex="0">
+    <img src="/ax.png" alt="Armani Exchange">
+  </div>
+  <div class="product-box" onclick="location.href='/Burburry'" tabindex="0">
+    <img src="/burberry.png" alt="Burberry">
+  </div>
+  <div class="product-box" onclick="location.href='/Prada'" tabindex="0">
+    <img src="/prada.png" alt="Prada">
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    © 2024 Product Gallery. All rights reserved.
-  </footer>
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Luxury Brands. All rights reserved.</p>
+</footer>
 
-  <!-- GSAP Animations -->
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+<!-- Scroll to Top Button -->
+<div class="scroll-top" id="scrollTopBtn">
+  <i class="fas fa-chevron-up"></i>
+</div>
 
-    // Animate the heading
-    gsap.to("h1", {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      ease: "power2.out",
+<script>
+  // ✅ PAGE LOADER
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.opacity = '0';
+    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+  });
+
+  // ✅ GSAP + Scroll Animations
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from("body", {
+    opacity: 0,
+    duration: 1.2,
+    ease: "power2.out"
+  });
+
+  gsap.from(".hero-section h1", {
+    opacity: 0,
+    y: -50,
+    duration: 1,
+    delay: 0.3,
+    ease: "power3.out"
+  });
+
+  gsap.from(".brand-gallery", {
+    opacity: 0,
+    y: 40,
+    duration: 1.2,
+    delay: 0.5,
+    ease: "power2.out"
+  });
+
+  gsap.from(".product-box", {
+    scrollTrigger: {
+      trigger: ".brand-gallery",
+      start: "top 80%"
+    },
+    opacity: 0,
+    y: 20,
+    duration: 0.7,
+    stagger: 0.15,
+    ease: "power2.out"
+  });
+
+  gsap.from("footer", {
+    scrollTrigger: {
+      trigger: "footer",
+      start: "top 90%"
+    },
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    ease: "power2.out"
+  });
+
+  // ✅ ACCESSIBILITY: Enter/Space on brand box
+  document.querySelectorAll('.product-box').forEach(box => {
+    box.addEventListener('keydown', (e) => {
+      if (e.key === "Enter" || e.key === " ") box.click();
     });
+  });
 
-    // Animate the product gallery
-    gsap.to(".product-gallery", {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      delay: 0.5,
-      ease: "power2.out",
-    });
+  // ✅ SCROLL TO TOP
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.style.display = "block";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+    // Parallax fade effect for hero
+    const hero = document.querySelector(".hero-section");
+    let opacity = 1 - window.scrollY / 400;
+    if (opacity >= 0) hero.style.opacity = opacity;
+  });
 
-    // Stagger animations for the product boxes
-    gsap.from(".product-box", {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      stagger: 0.3,
-      scrollTrigger: {
-        trigger: ".product-gallery",
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none none",
-      },
-    });
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
-    // Animate the footer
-    gsap.to("footer", {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      delay: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: "footer",
-        start: "top 90%",
-      },
+  // // ✅ ANIMATED CURSOR
+  // const cursor = document.querySelector('.cursor');
+  // document.addEventListener('mousemove', e => {
+  //   cursor.style.left = e.pageX + 'px';
+  //   cursor.style.top = e.pageY + 'px';
+  // });
+
+  document.querySelectorAll('a, button, .product-box').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%, -50%) scale(1.5)');
+    el.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+  });
+
+  // ✅ MICRO-INTERACTIONS: Ripple on product-box
+  document.querySelectorAll('.product-box').forEach(box => {
+    box.addEventListener('mouseenter', () => {
+      const ripple = document.createElement('span');
+      ripple.style.position = 'absolute';
+      ripple.style.width = ripple.style.height = '100px';
+      ripple.style.border = '2px solid var(--accent)';
+      ripple.style.borderRadius = '50%';
+      ripple.style.left = '50%';
+      ripple.style.top = '50%';
+      ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+      ripple.style.opacity = '0.7';
+      ripple.style.pointerEvents = 'none';
+      ripple.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+      box.appendChild(ripple);
+      setTimeout(() => {
+        ripple.style.transform = 'translate(-50%, -50%) scale(2)';
+        ripple.style.opacity = '0';
+      }, 10);
+      setTimeout(() => ripple.remove(), 600);
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

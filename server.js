@@ -26,7 +26,8 @@ app.use(
           "'self'",
           "'unsafe-inline'",
           "'unsafe-eval'",
-          "https://cdnjs.cloudflare.com" // Allow CDN for GSAP
+          "https://cdnjs.cloudflare.com",// Allow CDN for GSAP
+          "https://cdn.jsdelivr.net", 
         ],
         scriptSrcAttr: ["'unsafe-inline'"],
         imgSrc: [
@@ -45,13 +46,15 @@ app.use(
           "https://media.gucci.com",
           "https://in.louisvuitton.com",
           "https://www.prada.com",
-          "https://saint-laurent.dam.kering.com"
+          "https://saint-laurent.dam.kering.com",
+          "https://images.unsplash.com"  
         ],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
           "https://fonts.googleapis.com/",
-          "https://cdnjs.cloudflare.com/" // Allow styles from CDN
+          "https://cdnjs.cloudflare.com/", // Allow styles from CDN
+          "https://cdn.jsdelivr.net",
         ],
         fontSrc: ["'self'", "https://fonts.gstatic.com/", "https://cdnjs.cloudflare.com/"],
       },
@@ -150,10 +153,4 @@ app.use(errorHandler) // Handle errors globally
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`)
 })
-
-
-
-
-
-
 
