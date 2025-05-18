@@ -1,22 +1,34 @@
-const express = require('express') // Express for routing and middleware management
-const path = require('path') // Path to handle file paths
-const app = express()
-const session = require('express-session');
-const PORT = 8080
-
-app.use(session({
-  secret: 'your_super_secret_key', // change this for security
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false } // true only if using HTTPS
-}))
-
-
-
-const morgan=require('morgan')//color codes to the status code
-app.use(morgan('dev'))
-
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+const logger = require('./middlewares/logger');
+const errorHandler = require('./middlewares/errorHandler');
+
+const app = express();
+const PORT = 8080;
+
+// Passport config
+require('./middlewares/passportConfig');
+
+// Connect to MongoDB (only once)
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/vogueDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.error("MongoDB connection error:", err));
+
+// Middleware
+app.use(morgan('dev'));
+app.use(cors());
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -26,7 +38,7 @@ app.use(
           "'self'",
           "'unsafe-inline'",
           "'unsafe-eval'",
-          "https://cdnjs.cloudflare.com",// Allow CDN for GSAP
+          "https://cdnjs.cloudflare.com",
           "https://cdn.jsdelivr.net", 
         ],
         scriptSrcAttr: ["'unsafe-inline'"],
@@ -62,95 +74,70 @@ app.use(
   })
 );
 
-
-// Protects against common vulnerabilities
-
-const cors = require('cors');
-app.use(cors()); // Enable all origins (for APIs)
-
-const bodyParser=require('body-parser')
 app.use(bodyParser.json());
-// // Middleware to parse URL-encoded data (from HTML forms)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const rateLimit = require('express-rate-limit'); // Import the package
+// Session & Passport
+app.use(session({
+  secret: 'your_super_secret_key', // Use a stronger secret in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true in production with HTTPS
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Define a rate limit: Allow 100 requests per 15 minutes per IP
+// Rate Limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.',
-    headers: true, // Send rate limit info in headers
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests from this IP, please try again later.',
+  headers: true,
 });
-
-// Apply the rate limiter to all API routes
 app.use('/api', limiter);
 
-// Import middlewares-==
-const logger = require('./middlewares/logger') // Import logger middleware
-const errorHandler = require('./middlewares/errorHandler') // Import error handler middleware
-// Middleware to handle JSON and URL-encoded data in POST requests
-app.use(express.json()) // To parse JSON bodies
-app.use(express.urlencoded({ extended: true })) // To parse URL-encoded data from incoming requests
-// Use logger middleware for all incoming requests
-app.use(logger) // Log each request
-// Serve static files (HTML, CSS, JS) from the /public directory
-app.use(express.static(path.join(__dirname, 'public')))
-// Import API routes from apiRoutes.js
-const apiRoutes = require('./api/apiRoutes') // Import the API routes for login and register functionality
-app.use('/api', apiRoutes) // Mount the API routes on /api path
-// Serve login.html at the root URL
-app.get('/', (req, res) => {
-  res.render(path.join(__dirname, 'views', 'new.ejs')) // Serve the login page at root URL
-})
-app.get('/login', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'login.ejs')) // Serve the login page at root URL
-})
-app.get('/contact', (req, res) => {
-  res.render(path.join(__dirname, 'views', 'contact.ejs' ), {username: req.session.username}) // Serve the login page at root URL
-})
-app.get('/register', (req, res) => {
-  res.render(path.join(__dirname, 'views', 'register.ejs')) // Serve the login page at root URL
-})
-// Serve dashboard.html when user is authenticated
-app.get('/api/order', (req, res) => {
-  res.render(path.join(__dirname, 'views', 'order.ejs'),{username: req.session.username}) // Serve the dashboard HTML file
-})
-// Serve register.html when user needs to register
-app.get('/api/register', (req, res) => {
-  res.render(path.join(__dirname, 'views', 'register.ejs', )) // Serve the register HTML file
-})
-app.get('/loui', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'loui.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/armani', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'armani.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/Burburry', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'Burburry.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/Chanel', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'Chanel.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/Dior', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'Dior.ejs'),{username: req.session.username}) // Serve the register HTML file
-}) 
-app.get('/gucci', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'gucci.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/Prada', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'Prada.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/Ysl', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'Ysl.ejs'),{username: req.session.username}) // Serve the register HTML file
-})
-app.get('/error', (req, res) => {
-  errorHandler(new Error("An errror occured "),req,res);
-})
-// Use error handler middleware for catching and handling errors
-app.use(errorHandler) // Handle errors globally
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`)
-})
+// Logger middleware
+app.use(logger);
 
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes
+const authRoutes = require('./api/apiRoutes');       // Correct path based on your structure
+
+app.use('/api', authRoutes);       // Handles login/register/auth
+
+// Views
+app.set('view engine', 'ejs');
+
+// Public Pages
+app.get('/', (req, res) => res.render(path.join(__dirname, 'views', 'new.ejs')));
+app.get('/login', (req, res) => res.render(path.join(__dirname, 'views', 'login.ejs')));
+app.get('/register', (req, res) => res.render(path.join(__dirname, 'views', 'register.ejs')));
+app.get('/api/register', (req, res) => res.render(path.join(__dirname, 'views', 'register.ejs')));
+app.get('/contact', (req, res) => res.render(path.join(__dirname, 'views', 'contact.ejs'), { username: req.user?.username }));
+
+// Protected Pages
+app.get('/api/order', (req, res) => res.render(path.join(__dirname, 'views', 'order.ejs'), { username: req.user?.username  }));
+app.get('/loui', (req, res) => res.render(path.join(__dirname, 'views', 'loui.ejs'), { username: req.user?.username }));
+app.get('/armani', (req, res) => res.render(path.join(__dirname, 'views', 'armani.ejs'), {username: req.user?.username  }));
+app.get('/Burburry', (req, res) => res.render(path.join(__dirname, 'views', 'Burburry.ejs'), { username: req.user?.username  }));
+app.get('/Chanel', (req, res) => res.render(path.join(__dirname, 'views', 'Chanel.ejs'), { username: req.user?.username  }));
+app.get('/Dior', (req, res) => res.render(path.join(__dirname, 'views', 'Dior.ejs'), { username: req.user?.username  }));
+app.get('/gucci', (req, res) => res.render(path.join(__dirname, 'views', 'gucci.ejs'), { username: req.user?.username  }));
+app.get('/Prada', (req, res) => res.render(path.join(__dirname, 'views', 'Prada.ejs'), { username: req.user?.username  }));
+app.get('/Ysl', (req, res) => res.render(path.join(__dirname, 'views', 'Ysl.ejs'), { username: req.user?.username  }));
+
+app.get('/checkout', (req, res) => res.render(path.join(__dirname, 'views', 'checkout.ejs')));
+
+
+// Error Handling
+app.get('/error', (req, res) => {
+  errorHandler(new Error("An error occurred"), req, res);
+});
+app.use(errorHandler);
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

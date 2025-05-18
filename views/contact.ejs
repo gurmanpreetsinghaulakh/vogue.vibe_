@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Contact Us Page</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" crossorigin="anonymous"></script>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – Vogue Vibe</title>
 
-* {
-  padding: 0;
+  <!-- Fonts & Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+   * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
@@ -18,86 +21,88 @@
 body {
   min-height: 100vh;
   width: 100%;
+  background: url("https://images.unsplash.com/photo-1595065666634-4725aa7e8379?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center center/cover;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-image: url(https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg);
-  background-size: cover;
-  background-position: center;
+  justify-content: center;
   position: relative;
+  overflow-x: hidden;
 }
 
 body::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0,0,0,0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
 }
 
 section {
   position: relative;
-  z-index: 3;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  z-index: 2;
+  padding: 80px 20px;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .container {
-  max-width: 1080px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .section-header {
-  margin-bottom: 50px;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .section-header h2 {
-  color: #FFF;
-  font-weight: bold;
-  font-size: 3em;
-  margin-bottom: 20px;
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
-.section-header p {
-  color: #FFF;
-}
-
-.row  {
+.row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
+  gap: 50px;
+  align-items: flex-start;
 }
 
 .contact-info {
-  width: 50%;
+  flex: 1;
+  min-width: 300px;
 }
 
 .contact-info-item {
   display: flex;
-  margin-bottom: 30px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  transition: background 0.3s ease;
+}
+
+.contact-info-item:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .contact-info-icon {
-  height: 70px;
-  width: 70px;
-  background-color: #fff;
-  text-align: center;
+  height: 60px;
+  width: 60px;
+  background: #fff;
   border-radius: 50%;
-  display: flex; /* Added Flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .contact-info-icon i {
-  font-size: 100px; /* Adjusted icon size */
-  color: #1da9c0; /* Icon color */
+  font-size: 22px;
+  color: #d4af37;
 }
 
 .contact-info-content {
@@ -105,175 +110,201 @@ section {
 }
 
 .contact-info-content h4 {
-  color: #1da9c0;
-  font-size: 1.4em;
-  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 4px;
 }
 
 .contact-info-content p {
-  color: #FFF;
-  font-size: 1em;
+  color: #eee;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .contact-form {
-  background-color: #fff;
-  padding: 40px;
-  width: 45%;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  flex: 1;
+  min-width: 320px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  padding: 35px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .contact-form h2 {
-  font-weight: bold;
-  font-size: 2em;
-  margin-bottom: 10px;
-  color: #333;
+  color: #d4af37;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 25px;
 }
 
-.contact-form .input-box {
+.input-box {
   position: relative;
-  width: 100%;
-  margin-top: 10px;
+  margin-bottom: 22px;
 }
 
-.contact-form .input-box input,
-.contact-form .input-box textarea{
+.input-box input,
+.input-box textarea {
   width: 100%;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
+  background: transparent;
   border: none;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid #aaa;
   outline: none;
-  resize: none;
+  padding: 10px 5px;
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
-.contact-form .input-box span {
+.input-box input:focus,
+.input-box textarea:focus {
+  border-bottom-color: #d4af37;
+}
+
+.input-box span {
   position: absolute;
-  left: 0;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
+  top: 12px;
+  left: 5px;
+  font-size: 1rem;
+  color: #999;
   pointer-events: none;
-  transition: 0.5s;
-  color: #666;
+  transition: 0.3s ease;
 }
 
-.contact-form .input-box input:focus ~ span,
-.contact-form .input-box textarea:focus ~ span{
-  color: #e91e63;
-  font-size: 12px;
+.input-box input:focus ~ span,
+.input-box input:valid ~ span,
+.input-box textarea:focus ~ span,
+.input-box textarea:valid ~ span {
   transform: translateY(-20px);
+  font-size: 0.85rem;
+  color: #d4af37;
 }
 
-.contact-form .input-box input[type="submit"]
-{
-  width: 100%;
-  background: #00bcd4;
-  color: #FFF;
+.input-box input[type="submit"] {
+  background: linear-gradient(to right, #d4af37, #f8e7b5);
+  color: #000;
+  font-weight: 600;
+  padding: 12px;
+  font-size: 1rem;
   border: none;
+  border-radius: 8px;
+  width: 100%;
   cursor: pointer;
-  padding: 10px;
-  font-size: 18px;
-  border: 1px solid #00bcd4;
-  transition: 0.5s;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  transition: all 0.4s ease;
 }
 
-.contact-form .input-box input[type="submit"]:hover
-{
-  background: #FFF;
-  color: #00bcd4;
+.input-box input[type="submit"]:hover {
+  background: transparent;
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  box-shadow: none;
 }
 
 @media (max-width: 991px) {
-  section {
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
-  
   .row {
     flex-direction: column;
+    gap: 30px;
   }
-  
-  .contact-info {
-    margin-bottom: 40px;
-    width: 100%;
-  }
-  
+
+  .contact-info,
   .contact-form {
     width: 100%;
   }
 }
-</style>
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+  </style>
 </head>
 <body>
-<section>
-  <div class="section-header">
+  <section>
+    <div class="section-header">
+      <div class="container">
+        <h2>Contact Us</h2>
+      </div>
+    </div>
+
     <div class="container">
-      <h2>Contact Us</h2>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-    </div>
-  </div>
-  
-  <div class="container">
-    <div class="row">
-      <div class="contact-info">
-        <div class="contact-info-item">
-          <div class="contact-info-icon">
-            <i class="fas fa-home"></i>
+      <div class="row">
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-home"></i></div>
+            <div class="contact-info-content">
+              <h4>Address</h4>
+              <p>SECTOR-11,<br>CHITKARA, PUNJAB</p>
+            </div>
           </div>
-          <div class="contact-info-content">
-            <h4>Address</h4>
-            <p>SECTOR-11,<br>CHITKARA, PUNJAB</p>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-info-content">
+              <h4>Phone</h4>
+              <p>+91 8234973598</p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-info-content">
+              <h4>Email</h4>
+              <p>fashion@gmail.com</p>
+            </div>
           </div>
         </div>
-        
-        <div class="contact-info-item">
-          <div class="contact-info-icon">
-            <i class="fas fa-phone"></i>
-          </div>
-          <div class="contact-info-content">
-            <h4>Phone</h4>
-            <p>+91 8234973598</p>
-          </div>
-        </div>
-        
-        <div class="contact-info-item">
-          <div class="contact-info-icon">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <div class="contact-info-content">
-            <h4>Email</h4>
-            <p>fashion@gmail.com</p>
-          </div>
+
+        <div class="contact-form">
+          <form action="/contact" method="POST" id="contact-form">
+            <h2>Send Message</h2>
+            <div class="input-box">
+              <input type="text" name="name" required>
+              <span>Full Name</span>
+            </div>
+            <div class="input-box">
+              <input type="email" name="email" required>
+              <span>Email</span>
+            </div>
+            <div class="input-box">
+              <textarea name="message" rows="5" required></textarea>
+              <span>Type your Message...</span>
+            </div>
+            <div class="input-box">
+              <input type="submit" value="Send">
+            </div>
+          </form>
         </div>
       </div>
-      
-      <div class="contact-form">
-        <form action="" id="contact-form">
-          <h2>Send Message</h2>
-          <div class="input-box">
-            <input type="text" required="true" name="">
-            <span>Full Name</span>
-          </div>
-          
-          <div class="input-box">
-            <input type="email" required="true" name="">
-            <span>Email</span>
-          </div>
-          
-          <div class="input-box">
-            <textarea required="true" name=""></textarea>
-            <span>Type your Message...</span>
-          </div>
-          
-          <div class="input-box">
-            <input type="submit" value="Send" name="">
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <script>
+    // GSAP Animations
+    gsap.from(".section-header h2", {
+      y: -50,
+      opacity: 0,
+      duration: 1,
+      ease: "power4.out"
+    });
+
+    gsap.from(".contact-info-item", {
+      x: -100,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out",
+      stagger: 0.2
+    });
+
+    gsap.from(".contact-form", {
+      x: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.5,
+      ease: "power2.out"
+    });
+  </script>
 </body>
 </html>

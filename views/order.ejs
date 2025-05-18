@@ -240,7 +240,7 @@
 <!-- Navbar User -->
 <div class="navbar-icons">
   <i class="fa-solid fa-user"></i>
-  <span><%= username %></span>
+  <%= username %>
 </div>
 
 <!-- Hero -->
@@ -286,13 +286,13 @@
 </div>
 
 <script>
-  // ✅ PAGE LOADER
+  //PAGE LOADER
   window.addEventListener('load', () => {
     document.getElementById('loader').style.opacity = '0';
     setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
   });
 
-  // ✅ GSAP + Scroll Animations
+  //GSAP + Scroll Animations
   gsap.registerPlugin(ScrollTrigger);
 
   gsap.from("body", {
@@ -340,14 +340,14 @@
     ease: "power2.out"
   });
 
-  // ✅ ACCESSIBILITY: Enter/Space on brand box
+  //ACCESSIBILITY: Enter/Space on brand box
   document.querySelectorAll('.product-box').forEach(box => {
     box.addEventListener('keydown', (e) => {
       if (e.key === "Enter" || e.key === " ") box.click();
     });
   });
 
-  // ✅ SCROLL TO TOP
+  //SCROLL TO TOP
   const scrollTopBtn = document.getElementById("scrollTopBtn");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
@@ -365,19 +365,12 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // // ✅ ANIMATED CURSOR
-  // const cursor = document.querySelector('.cursor');
-  // document.addEventListener('mousemove', e => {
-  //   cursor.style.left = e.pageX + 'px';
-  //   cursor.style.top = e.pageY + 'px';
-  // });
-
   document.querySelectorAll('a, button, .product-box').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%, -50%) scale(1.5)');
     el.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
   });
 
-  // ✅ MICRO-INTERACTIONS: Ripple on product-box
+  //MICRO-INTERACTIONS: Ripple on product-box
   document.querySelectorAll('.product-box').forEach(box => {
     box.addEventListener('mouseenter', () => {
       const ripple = document.createElement('span');

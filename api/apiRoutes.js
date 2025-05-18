@@ -1,47 +1,65 @@
-const express = require('express') // Express for routing
-const path = require('path') // Path to handle file paths
-const fs = require('fs') // FS module for reading and writing files
-const router = express.Router() // Create an instance of Express Router
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const User = require('../models/User');
 
-// Login route
-router.post('/login', (req, res, next) => {
-  const { username, password } = req.body // Destructure username and password from the request body
-  // Read users data from the users.json file
-  fs.readFile(path.join(__dirname, '../models/users.json'), 'utf-8', (err, data) => {
-    if (err) return next(err) // Pass any error to the error handling middleware
-    const users = JSON.parse(data) // Parse JSON data to get the user list
-    const user = users.find(u => u.username === username && u.password === password) // Find matching user
-    if (user) {
+const router = express.Router();
 
 
-      req.session.username = user.username
-      // If user exists, redirect to the dashboard
-      return res.status(302).redirect('/api/order') // Redirect to dashboard.html
-    } else {
-      // If user doesn't exist, redirect to the register page
-      return res.status(302).redirect('/api/register') // Redirect to register.html
+//LOGIN ROUTE (LOCAL)
+router.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      console.log("User not found");
+      return res.redirect('/register');
     }
-  })
-})
 
-// Register route
-router.post('/register', (req, res, next) => {
-  const { username, password } = req.body // Destructure username and password
-  const newUser = { username, password } // Create a new user object
-  // Read users data from the users.json file
-  fs.readFile(path.join(__dirname, '../models/users.json'), 'utf-8', (err, data) => {
-    if (err) return next(err) // Pass any error to the error handling middleware
-    let users = []
-    if (data) {
-      users = JSON.parse(data) // Parse existing user data
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.log("Incorrect password");
+      return res.redirect('/login');
     }
-    users.push(newUser) // Add the new user to the users array
-    // Write the updated users array back to the JSON file
-    fs.writeFile(path.join(__dirname, '../models/users.json'), JSON.stringify(users, null, 2), (err) => {
-      if (err) return next(err) // Pass any error to the error handling middleware
-      res.status(302).redirect('/login') // Redirect to login page after successful registration
-    })
-  })
-})
 
-module.exports = router // Export the router so it can be used in server.js
+    req.session.username = user.username;
+    req.login(user, function (err) {
+      if (err) return next(err);
+      return res.redirect('/api/order');
+    });
+
+  } catch (err) {
+    console.error("Login error:", err);
+    next(err);
+  }
+});
+
+//REGISTER ROUTE
+router.post('/register', async (req, res, next) => { 
+
+  const { username, password, uemail } = req.body; // uemail comes from form
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.redirect('/login');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      email: uemail           //Save email here
+    });
+
+    await newUser.save();
+    res.redirect('/login');
+  } catch (err) {
+    console.error('Registration error:', err);
+    next(err);
+  }
+});
+
+module.exports = router;
